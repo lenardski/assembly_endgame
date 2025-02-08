@@ -6,7 +6,7 @@ export default function App() {
 
   const [currentWord, setCurrentWord] = React.useState("react");
   const [guessedLetters, setGuessedLetters] = React.useState([]);
-
+  const wrongGuessCount = guessedLetters.filter(letter => !currentWord.includes(letter)).length
 
   function addGuessedLetter(letter) {
     setGuessedLetters( previousLetters =>  previousLetters.includes(letter) ? previousLetters : [...previousLetters, letter]) 
@@ -20,7 +20,8 @@ export default function App() {
   )
 
   const wordElements = currentWord.split('').map((letter, index) => {
-    return (<span key={index}>{letter.toUpperCase()}</span>)
+    const isGuessed = guessedLetters.includes(letter)
+    return (<span key={index}>{isGuessed ? letter.toUpperCase() : ""}</span>)
   })
 
   const keyboard = "abcdefghijklmnopqrstuvwxyz".split('').map((letter) => {
@@ -45,7 +46,7 @@ export default function App() {
         <h2>You win! 🎉</h2>
         <p>Nicely done! You have saved the remaining programming languages!</p>
       </section>
-      <section className="language-catalogs">
+      <section className="language-display">
         {languageElements}
       </section>
       <section className="word-display">

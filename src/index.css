@@ -49,7 +49,7 @@ section.game-status>h2 {
   margin: 5px;
 }
 
-section.language-catalogs {
+section.language-display {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
