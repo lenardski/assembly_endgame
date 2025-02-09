@@ -7,6 +7,9 @@ export default function App() {
   const [currentWord, setCurrentWord] = React.useState("react");
   const [guessedLetters, setGuessedLetters] = React.useState([]);
   const wrongGuessCount = guessedLetters.filter(letter => !currentWord.includes(letter)).length
+  const isGameWon = wrongGuessCount === languages.length -1
+  const isGameLost = currentWord.split("").every(letter => guessedLetters.includes(letter))
+  const isGameOver = isGameWon || isGameLost
 
   function addGuessedLetter(letter) {
     setGuessedLetters( previousLetters =>  previousLetters.includes(letter) ? previousLetters : [...previousLetters, letter]) 
@@ -14,8 +17,9 @@ export default function App() {
 
   const languageElements = languages.map(
     (language, index) => {
+      const isLanguageLost = index < wrongGuessCount
       const styles = { backgroundColor: language.backgroundColor, color: language.color }
-      return (<span className="single-language" key={index} style={styles}>{language.name}</span>)
+      return (<span className={`prog-language ${isLanguageLost ? "lost" : ""}`} key={index} style={styles}>{language.name}</span>)
     }
   )
 
@@ -55,7 +59,7 @@ export default function App() {
       <section className="keyboard-display">
         {keyboard}
       </section>
-      <button className="button-display">New Game</button>
+      {isGameOver && <button className="button-display">New Game</button>}
     </main>
   )
 }
